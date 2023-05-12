@@ -1,5 +1,5 @@
 # krankenhaus-DB
-This is a project of my group (![Jose](https://github.com/JoseaGarciaS), Sergio and ![me](https://github.com/Onededios)), about a database in PostgreSQL of an hospital management system.
+This is a project of my group ([Jose](https://github.com/JoseaGarciaS), Sergio and [me](https://github.com/Onededios)), about a database in PostgreSQL of an hospital management system.
 
 ## License
 
