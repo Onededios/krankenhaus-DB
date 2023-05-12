@@ -23,4 +23,12 @@ A new virus has taken us by surprise worldwide, it's called 'jeta01'. It's a vir
 You are one of the few IT professionals who still knows solutions based on the entity-relationship model. Your weapon: Postgresql and the knowledge you have acquired during the course, your destiny: to save humanity (Hans Zimmer's music playing in the background...)
 
 ### ER Diagram
-![alt](https://drive.google.com/file/d/1F5PAta-RoZ__F_EAHFGOqepdr3o1RDZs/view?usp=sharing)
+![alt](docs/ER-Diagram.png)
+
+## Preguntas
+
+1. Cuantos usuarios hay?
+2. Qué usuarios hay?
+3. Qué roles tienen los usuarios?
+4. Cuantos doctores hay?
+5. Cual es la explicacion de cada atributo?
