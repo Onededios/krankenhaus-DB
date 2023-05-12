@@ -23,7 +23,7 @@ A new virus has taken us by surprise worldwide, it's called 'jeta01'. It's a vir
 You are one of the few IT professionals who still knows solutions based on the entity-relationship model. Your weapon: Postgresql and the knowledge you have acquired during the course, your destiny: to save humanity (Hans Zimmer's music playing in the background...)
 
 ### ER Diagram
-![alt](docs/ER-Diagram.png)
+![alt](docs/ER-Diagram.svg)
 
 ## Preguntas
 
