@@ -24,4 +24,4 @@ You are one of the few IT professionals who still knows solutions based on the e
 
 ## Documentation
 
-You will find all the documentation in this [link]()
+You will find all the documentation in this [link](https://onededios.github.io/krankenhaus-DB/).
