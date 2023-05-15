@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="krankenhause" id="Project-f22" database="PostgreSQL" >
 	<schema name="krankenhause" >
-		<table name="administratiu" generator_rows="505" >
+		<table name="administratiu" generator_rows="2" >
 			<column name="idadministratiu" type="bigint" jt="-5" mandatory="y" />
-			<column name="idtreballador" type="bigint" jt="-5" mandatory="y" />
-			<column name="carg" type="text" jt="12" />
+			<column name="idtreballador" type="bigint" jt="-5" mandatory="y" regexp="sequence:from=0;step=1;" />
+			<column name="carg" type="text" jt="12" regexp="([ABCDHNPRST]|[A-EGHN-T]|[A-Z]){1,2}" />
 			<index name="pk_administratiu" unique="PRIMARY_KEY" >
 				<column name="idadministratiu" />
 			</index>
@@ -12,11 +12,11 @@
 				<fk_column name="idtreballador" pk="idtreballador" />
 			</fk>
 		</table>
-		<table name="cartillavacunes" generator_rows="505" >
+		<table name="cartillavacunes" generator_rows="10" >
 			<column name="idcartilla" type="bigint" jt="-5" mandatory="y" />
 			<column name="idpacient" prior="idpersona" type="bigint" jt="-5" mandatory="y" />
 			<column name="idvacuna" type="bigint" jt="-5" mandatory="y" />
-			<column name="datavacunacio" type="date" jt="91" />
+			<column name="datavacunacio" type="date" jt="91" mandatory="y" />
 			<index name="unq_cartillavacunes_idvacuna" unique="UNIQUE_KEY" >
 				<column name="idvacuna" />
 			</index>
@@ -30,9 +30,9 @@
 				<fk_column name="idvacuna" pk="idvacuna" />
 			</fk>
 		</table>
-		<table name="ciutat" generator_rows="100" >
+		<table name="ciutat" generator_rows="10" >
 			<column name="idciutat" type="bigint" jt="-5" mandatory="y" />
-			<column name="nomciutat" type="text" jt="12" />
+			<column name="nomciutat" type="text" jt="12" regexp="list:file=State.txt" />
 			<index name="pk_ciutat" unique="PRIMARY_KEY" >
 				<column name="idciutat" />
 			</index>
@@ -40,11 +40,11 @@
 				<column name="nomciutat" />
 			</index>
 		</table>
-		<table name="doctor" generator_rows="505" >
+		<table name="doctor" generator_rows="3" >
 			<column name="iddoctor" type="bigint" jt="-5" mandatory="y" />
 			<column name="idtreballador" type="bigint" jt="-5" mandatory="y" />
 			<column name="idpacient" type="bigint" jt="-5" />
-			<column name="especialitat" type="text" jt="12" mandatory="y" />
+			<column name="especialitat" type="text" jt="12" regexp="((Corporate |Technical |National |International |Business |Consumer |Accessory)(Sales|Marketing|Customer)|Technical|Accounting|Service|Prepaid Customer|Web)" />
 			<index name="pk_doctor" unique="PRIMARY_KEY" >
 				<column name="iddoctor" />
 			</index>
@@ -55,11 +55,11 @@
 				<fk_column name="idpacient" pk="idpacient" />
 			</fk>
 		</table>
-		<table name="enfermer" generator_rows="505" >
+		<table name="enfermer" generator_rows="5" >
 			<column name="idenfermer" type="bigint" jt="-5" mandatory="y" />
 			<column name="idtreballador" type="bigint" jt="-5" mandatory="y" />
-			<column name="idpacient" type="bigint" jt="-5" mandatory="y" />
-			<column name="especilitat" type="text" jt="12" />
+			<column name="idpacient" type="bigint" jt="-5" />
+			<column name="especilitat" type="text" jt="12" regexp="((Corporate |Technical |National |International |Business |Consumer |Accessory)(Sales|Marketing|Customer)|Technical|Accounting|Service|Prepaid Customer|Web)" />
 			<index name="pk_enfermer" unique="PRIMARY_KEY" >
 				<column name="idenfermer" />
 			</index>
@@ -73,16 +73,13 @@
 				<fk_column name="idpacient" pk="idpacient" />
 			</fk>
 		</table>
-		<table name="hospital" generator_rows="150" >
+		<table name="hospital" generator_rows="3" >
 			<column name="idhospital" type="bigint" jt="-5" mandatory="y" />
-			<column name="nomhospital" type="text" jt="12" />
+			<column name="nomhospital" type="text" jt="12" mandatory="y" regexp="(Re|Ad|Par|Tru|Thru|In|Bar|Cip|Dop|End|Em|Fro|Gro|Hap|Kli|Lom|Mon|Qwi|Rap|Sup|Sur|Tip|Tup|Un|Up|Var|Win|Zee)(ban|cad|dud|dim|er|frop|glib|hup|jub|kil|mun|nip|peb|pick|quest|rob|sap|sip|tan|tin|tum|ven|wer|werp|zap)(il|ic|im|in|up|ad|ack|am|on|ep|ed|ef|eg|aqu|ef|edg|op|oll|omm|ew|an|ex|pl)?(icator|or|ar|ax|an|ex|istor|entor|antor|in|over|ower|azz)(([ -]?Pro|Duplex|Multi){0}) (Direct|WorldWide|Holdings|International) (Inc|Company|Group|Corp.)?" />
 			<column name="numllitsucilliures" type="bigint" jt="-5" />
-			<column name="ciutat" type="text" jt="12" />
+			<column name="ciutat" type="text" jt="12" mandatory="y" />
 			<index name="pk_hospital" unique="PRIMARY_KEY" >
 				<column name="idhospital" />
-			</index>
-			<index name="unq_hospital_nomhospital" unique="UNIQUE_KEY" >
-				<column name="nomhospital" />
 			</index>
 			<index name="unq_hospital_ciutat" unique="UNIQUE_KEY" >
 				<column name="ciutat" />
@@ -91,12 +88,12 @@
 				<fk_column name="ciutat" pk="nomciutat" />
 			</fk>
 		</table>
-		<table name="pacient" prior="tbl" generator_rows="337" >
+		<table name="pacient" prior="tbl" generator_rows="10" >
 			<column name="idpacient" type="bigint" jt="-5" mandatory="y" />
 			<column name="idpersona" type="bigint" jt="-5" mandatory="y" />
-			<column name="planta" type="text" jt="12" />
-			<column name="habitacio" type="text" jt="12" />
-			<column name="estat" type="text[]" jt="2003" />
+			<column name="planta" type="text" jt="12" regexp="(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)-[A-Z]{2}" />
+			<column name="habitacio" type="text" jt="12" regexp="short:from=0;to=999999999;" />
+			<column name="estat" type="text[]" jt="2003" regexp="([ABCDHNPRST]|[A-EGHN-T]|[A-Z]){1,2}" />
 			<column name="ocupauci" type="boolean" jt="16" />
 			<index name="pk_pacient" unique="PRIMARY_KEY" >
 				<column name="idpacient" />
@@ -105,26 +102,29 @@
 				<fk_column name="idpersona" pk="idpersona" />
 			</fk>
 		</table>
-		<table name="persona" generator_rows="225" >
+		<table name="persona" generator_rows="20" >
 			<column name="idpersona" type="bigint" jt="-5" mandatory="y" />
 			<column name="idhospital" type="bigint" jt="-5" mandatory="y" />
-			<column name="nom" type="text" jt="12" />
-			<column name="cognom" type="text" jt="12" />
+			<column name="nom" type="text" jt="12" mandatory="y" regexp="list:file=NamesFirst.txt" />
+			<column name="cognom" type="text" jt="12" mandatory="y" regexp="list:file=NamesLast.txt" />
 			<column name="datanaixement" type="date" jt="91" />
 			<index name="pk_persona" unique="PRIMARY_KEY" >
 				<column name="idpersona" />
 			</index>
 			<fk name="fk_persona_hospital" to_schema="krankenhause" to_table="hospital" >
-				<fk_column name="idhospital" pk="nomhospital" />
+				<fk_column name="idhospital" pk="idhospital" />
 			</fk>
 		</table>
-		<table name="stock" generator_rows="225" >
+		<table name="stock" generator_rows="4" >
 			<column name="idvacuna" type="bigint" jt="-5" mandatory="y" />
 			<column name="idhospital" type="bigint" jt="-5" mandatory="y" />
-			<column name="vacuna" type="text" jt="12" />
+			<column name="vacuna" type="text" jt="12" mandatory="y" regexp="($First Name) ($Last Name)" />
 			<column name="qty" type="bigint" jt="-5" mandatory="y" />
 			<index name="pk_stock" unique="PRIMARY_KEY" >
 				<column name="idvacuna" />
+			</index>
+			<index name="unq_stock_vacuna" unique="UNIQUE_KEY" >
+				<column name="vacuna" />
 			</index>
 			<fk name="fk_stock_vacuna" to_schema="krankenhause" to_table="vacuna" >
 				<fk_column name="idvacuna" pk="idvacuna" />
@@ -132,22 +132,25 @@
 			<fk name="fk_stock_hospital" to_schema="krankenhause" to_table="hospital" >
 				<fk_column name="idhospital" pk="idhospital" />
 			</fk>
+			<fk name="fk_stock_vacuna_0" to_schema="krankenhause" to_table="vacuna" >
+				<fk_column name="vacuna" pk="nomvacuna" />
+			</fk>
 		</table>
-		<table name="treballador" generator_rows="337" >
+		<table name="treballador" generator_rows="10" >
 			<column name="idtreballador" type="bigint" jt="-5" mandatory="y" />
 			<column name="idpersona" type="bigint" jt="-5" mandatory="y" />
 			<index name="pk_treballador" unique="PRIMARY_KEY" >
 				<column name="idtreballador" />
 			</index>
-			<fk name="fk_treballador_persona" to_schema="krankenhause" to_table="persona" >
+			<fk name="fk_treballador_persona" to_schema="krankenhause" to_table="persona" options="" >
 				<fk_column name="idpersona" pk="idpersona" />
 			</fk>
 		</table>
-		<table name="vacuna" generator_rows="100" >
+		<table name="vacuna" generator_rows="4" >
 			<column name="idvacuna" type="bigint" jt="-5" mandatory="y" />
-			<column name="nomvacuna" type="text" jt="12" />
-			<column name="laboratori" type="text" jt="12" />
-			<column name="numdosis" type="integer" jt="4" />
+			<column name="nomvacuna" type="text" jt="12" mandatory="y" />
+			<column name="laboratori" type="text" jt="12" regexp="(Re|Ad|Par|Tru|Thru|In|Bar|Cip|Dop|End|Em|Fro|Gro|Hap|Kli|Lom|Mon|Qwi|Rap|Sup|Sur|Tip|Tup|Un|Up|Var|Win|Zee)(ban|cad|dud|dim|er|frop|glib|hup|jub|kil|mun|nip|peb|pick|quest|rob|sap|sip|tan|tin|tum|ven|wer|werp|zap)(il|ic|im|in|up|ad|ack|am|on|ep|ed|ef|eg|aqu|ef|edg|op|oll|omm|ew|an|ex|pl)?(icator|or|ar|ax|an|ex|istor|entor|antor|in|over|ower|azz)(([ -]?Pro|Duplex|Multi){0}) (Direct|WorldWide|Holdings|International) (Inc|Company|Group|Corp.)?" />
+			<column name="numdosis" type="decimal" jt="3" mandatory="y" />
 			<index name="pk_vacuna" unique="PRIMARY_KEY" >
 				<column name="idvacuna" />
 			</index>
@@ -158,11 +161,11 @@
 				<fk_column name="idvacuna" pk="idvacuna" />
 			</fk>
 		</table>
-		<table name="virus" generator_rows="505" >
+		<table name="virus" generator_rows="3" >
 			<column name="idvirus" type="bigint" jt="-5" mandatory="y" />
 			<column name="idpacient" type="bigint" jt="-5" mandatory="y" />
-			<column name="idvacuna" type="bigint" jt="-5" />
-			<column name="vacuna" prior="nomvacuna" type="text" jt="12" />
+			<column name="idvacuna" type="bigint" jt="-5" mandatory="y" />
+			<column name="vacuna" prior="nomvacuna" type="text" jt="12" mandatory="y" />
 			<column name="nomvirus" type="text" jt="12" />
 			<column name="numvariant" type="integer" jt="4" />
 			<index name="pk_virus" unique="PRIMARY_KEY" >
@@ -179,7 +182,7 @@
 			</fk>
 		</table>
 		<function name="Function" id="Function-78b" isSystem="false" params_known="n" >
-			<string><![CDATA[CREATE [ OR REPLACE ] FUNCTION <name> ( [ [ argmode ] [ argname ] argtype [ { DEFAULT | = } default_expr ] [, ...] ] ) 
+			<string><![CDATA[CREATE OR REPLACE FUNCTION <name> ( [ [ argmode ] [ argname ] argtype [ { DEFAULT | = } default_expr ] [, ...] ] ) 
  [ RETURNS rettype 
  | RETURNS TABLE ( column_name column_type [, ...] ) ] 
  { LANGUAGE lang_name 
@@ -197,9 +200,8 @@
  [ WITH ( attribute [, ...] ) ]]]></string>
 		</function>
 	</schema>
-	<connector name="MyDb" database="MySql" driver_class="com.mysql.cj.jdbc.Driver" driver_jar="mysql-connector-j-8.0.32.jar" driver_desc="Standard" host="localhost" port="3306" user="root" useSystemProxy="false" />
-	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
-	<layout name=" krankenhaus" id="Layout-17b3" show_relation="columns" >
+	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.5.3.jar" driver_desc="Standard" host="192.168.166.38" port="5432" instance="krankenhaus" user="postgres" passwd="MTIzNA==" useSystemProxy="false" />
+	<layout name="Parsed Script Layout" id="Layout-17b3" show_relation="columns" >
 		<comment><![CDATA[krankenhaus]]></comment>
 		<entity schema="krankenhause" name="administratiu" color="BED3F4" x="784" y="256" />
 		<entity schema="krankenhause" name="cartillavacunes" color="C7F4BE" x="288" y="80" />
@@ -214,20 +216,21 @@
 		<entity schema="krankenhause" name="vacuna" color="C7F4BE" x="288" y="288" />
 		<entity schema="krankenhause" name="virus" color="C7F4BE" x="512" y="288" />
 		<group name="treballador" color="ECF0F7" >
-			<entity schema="krankenhause" name="treballador" />
 			<entity schema="krankenhause" name="administratiu" />
 			<entity schema="krankenhause" name="enfermer" />
 			<entity schema="krankenhause" name="doctor" />
+			<entity schema="krankenhause" name="treballador" />
 		</group>
 		<group name="vacuna" color="EEF7EC" >
-			<entity schema="krankenhause" name="vacuna" />
+			<entity schema="krankenhause" name="virus" />
+			<entity schema="krankenhause" name="ciutat" />
 			<entity schema="krankenhause" name="hospital" />
 			<entity schema="krankenhause" name="persona" />
-			<entity schema="krankenhause" name="virus" />
 			<entity schema="krankenhause" name="stock" />
-			<entity schema="krankenhause" name="cartillavacunes" />
-			<entity schema="krankenhause" name="ciutat" />
 			<entity schema="krankenhause" name="pacient" />
+			<entity schema="krankenhause" name="vacuna" />
+			<entity schema="krankenhause" name="cartillavacunes" />
 		</group>
+		<script name="krankenhaus.sql" id="Editor-d65" language="SQL" file="file:/home/joel10olor/Documents/krankenhaus-DB/src/krankenhaus.sql" />
 	</layout>
 </project>
