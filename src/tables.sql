@@ -1,21 +1,21 @@
-CREATE  TABLE ciutat (
+CREATE  TABLE krankenhaus_schema.ciutat (
 	idciutat             SERIAL PRIMARY KEY  ,
 	nomciutat            text    ,
 	CONSTRAINT unq_ciutat_nomciutat UNIQUE ( nomciutat )
  );
 
-CREATE  TABLE hospital (
+CREATE  TABLE krankenhaus_schema.hospital (
 	idhospital           SERIAL PRIMARY KEY  ,
 	nomhospital          text  NOT NULL  ,
 	numllitsucilliures   bigint    ,
 	idciutat             bigint    ,
 	CONSTRAINT unq_hospital_nomhospital UNIQUE ( nomhospital )  ,
-    CONSTRAINT fk_hospital_ciutat FOREIGN KEY (idciutat) REFERENCES ciutat (idciutat) ON DELETE CASCADE
+    CONSTRAINT fk_hospital_ciutat FOREIGN KEY (idciutat) REFERENCES krankenhaus_schema.ciutat (idciutat) ON DELETE CASCADE
  );
 
-ALTER TABLE hospital ADD CONSTRAINT fk_hospital_ciutat_0 FOREIGN KEY ( idciutat ) REFERENCES ciutat( idciutat );
+ALTER TABLE krankenhaus_schema.hospital ADD CONSTRAINT fk_hospital_ciutat_0 FOREIGN KEY ( idciutat ) REFERENCES krankenhaus_schema.ciutat ( idciutat );
 
-CREATE  TABLE persona (
+CREATE  TABLE krankenhaus_schema.persona (
 	idpersona            SERIAL PRIMARY KEY  ,
     idhospital           bigint  NOT NULL  ,
 	nom                  text  NOT NULL  ,
@@ -23,9 +23,9 @@ CREATE  TABLE persona (
 	datanaixement        date
  );
 
-ALTER TABLE persona ADD CONSTRAINT fk_persona_hospital FOREIGN KEY ( idhospital ) REFERENCES hospital( idhospital );
+ALTER TABLE krankenhaus_schema.persona ADD CONSTRAINT fk_persona_hospital FOREIGN KEY ( idhospital ) REFERENCES krankenhaus_schema.hospital ( idhospital );
 
-CREATE  TABLE pacient (
+CREATE  TABLE krankenhaus_schema.pacient (
 	idpacient            SERIAL  PRIMARY KEY  ,
 	idpersona            bigint  NOT NULL  ,
 	planta               text    ,
@@ -36,19 +36,19 @@ CREATE  TABLE pacient (
     CONSTRAINT fk_pacient_persona FOREIGN KEY (idpersona) REFERENCES persona (idpersona) ON DELETE CASCADE
  );
 
-ALTER TABLE pacient ADD CONSTRAINT fk2_pacient_persona FOREIGN KEY ( idpersona ) REFERENCES persona ( idpersona );
+ALTER TABLE krankenhaus_schema.pacient ADD CONSTRAINT fk2_pacient_persona FOREIGN KEY ( idpersona ) REFERENCES krankenhaus_schema.persona ( idpersona );
 
-CREATE  TABLE cartillavacunes (
+CREATE  TABLE krankenhaus_schema.cartillavacunes (
 	idcartilla           SERIAL  PRIMARY KEY  ,
 	idpacient            bigint  NOT NULL  ,
 	idvacuna             bigint  NOT NULL  ,
 	datavacunacio        date  NOT NULL  ,
-    CONSTRAINT fk_pacient_cartilla FOREIGN KEY (idpacient) REFERENCES pacient (idpacient) ON DELETE CASCADE
+    CONSTRAINT fk_pacient_cartilla FOREIGN KEY (idpacient) REFERENCES krankenhaus_schema.pacient (idpacient) ON DELETE CASCADE
  );
 
-ALTER TABLE cartillavacunes ADD CONSTRAINT fk_cartillavacunes_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES pacient( idpacient );
+ALTER TABLE krankenhaus_schema.cartillavacunes ADD CONSTRAINT fk_cartillavacunes_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES krankenhaus_schema.pacient ( idpacient );
 
-CREATE  TABLE vacuna (
+CREATE  TABLE krankenhaus_schema.vacuna (
 	idvacuna             SERIAL PRIMARY KEY  ,
 	nomvacuna            text  NOT NULL  ,
 	laboratori           text    ,
@@ -56,25 +56,25 @@ CREATE  TABLE vacuna (
 	CONSTRAINT unq_vacuna_nomvacuna UNIQUE ( nomvacuna )
  );
 
-ALTER TABLE cartillavacunes ADD CONSTRAINT fk_cartillavacunes_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES vacuna( idvacuna );
+ALTER TABLE krankenhaus_schema.cartillavacunes ADD CONSTRAINT fk_cartillavacunes_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES krankenhaus_schema.vacuna ( idvacuna );
 
-CREATE  TABLE virus (
+CREATE  TABLE krankenhaus_schema.virus (
 	idvirus              SERIAL  PRIMARY KEY  ,
 	idvacuna             bigint  NOT NULL  ,
 	nomvirus             text    ,
 	numvariant           integer    ,
-    CONSTRAINT fk_virus_vacuna FOREIGN KEY (idvacuna) REFERENCES vacuna (idvacuna) ON DELETE CASCADE
+    CONSTRAINT fk_virus_vacuna FOREIGN KEY (idvacuna) REFERENCES krankenhaus_schema.vacuna (idvacuna) ON DELETE CASCADE
  );
 
-ALTER TABLE virus ADD CONSTRAINT fk_virus_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES vacuna( idvacuna );
+ALTER TABLE krankenhaus_schema.virus ADD CONSTRAINT fk_virus_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES krankenhaus_schema.vacuna ( idvacuna );
 
-CREATE  TABLE stock (
+CREATE  TABLE krankenhaus_schema.stock (
 	idvacuna             bigint  NOT NULL  ,
 	idhospital           bigint  NOT NULL  ,
 	qty                  bigint  NOT NULL
  );
 
-ALTER TABLE stock ADD CONSTRAINT fk_stock_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES vacuna( idvacuna );
+ALTER TABLE krankenhaus_schema.stock ADD CONSTRAINT fk_stock_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES krankenhaus_schema.vacuna ( idvacuna );
 
 ALTER TABLE stock ADD CONSTRAINT fk_stock_hospital_0 FOREIGN KEY ( idhospital ) REFERENCES hospital( idhospital );
 
