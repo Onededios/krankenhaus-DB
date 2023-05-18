@@ -49,18 +49,6 @@ INSERT INTO pacient ( idpersona, planta, habitacio, estat, ocupauci ) VALUES
 ( 9, 'Primera', '108', 'molt greu', true ),
 ( 10, 'Baixa', '016', 'moderat', false );
 
-INSERT INTO cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
-( 8, 3, '2014-08-15' ) ,
-( 2, 1, '2011-04-01' ) ,
-( 5, 3, '2001-06-02' ) ,
-( 5, 1, '2016-02-08' ) ,
-( 3, 2, '2001-05-05' ) ,
-( 1, 3, '2011-08-21' ) ,
-( 4, 3, '2015-05-13' ) ,
-( 7, 1, '2011-07-03' ) ,
-( 10, 3, '2004-07-18' ) ,
-( 8, 3, '2017-01-17' ) ;
-
 INSERT INTO treballador ( idpersona ) VALUES
 ( 11 ),
 ( 12 ),
@@ -86,13 +74,25 @@ INSERT INTO enfermer ( idtreballador, idpacient, especilitat ) VALUES
 ( 6, 2, 'Infermer mèdico-quirúrgic' ),
 ( 7, 1, 'Infermer de cures intensives' ),
 ( 8, 8, 'Infermer pediàtric' ),
-( 9, 1, 'Infermer geriàtric' ),
+( 9, 3, 'Infermer geriàtric' ),
 ( 10, 9, 'Infermer comunitàri' );
 
 INSERT INTO vacuna ( nomvacuna, laboratori, numdosis ) VALUES
 ( 'Latoya Spencer', 'Monfropepistor Holdings Company', 7.31057369148862E7 ),
 ( 'Terminator', 'Skynet Labs', 7099203.475193139 ),
 ( 'Lakeisha Montes', 'Barcador Holdings Group', 6712000.939049955 );
+
+INSERT INTO cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
+( 8, 3, '2014-08-15' ) ,
+( 2, 1, '2011-04-01' ) ,
+( 5, 3, '2001-06-02' ) ,
+( 5, 1, '2016-02-08' ) ,
+( 3, 2, '2001-05-05' ) ,
+( 1, 3, '2011-08-21' ) ,
+( 4, 3, '2015-05-13' ) ,
+( 7, 1, '2011-07-03' ) ,
+( 10, 3, '2004-07-18' ) ,
+( 8, 3, '2017-01-17' ) ;
 
 INSERT INTO virus ( idvacuna, nomvirus, numvariant ) VALUES
  ( 3, 'Alex Cremento', 379250082 ),
