@@ -87,3 +87,8 @@ CREATE VIEW getVirus AS
 SELECT nomvirus
 FROM virus
 WHERE numvariant > 100000;
+
+-- Crea la vista getAllPacientsInfo
+CREATE VIEW getAllPacientsInfo AS
+SELECT nom, cognom, estat, nomhospital, nomciutat, planta, habitacio, ocupauci
+FROM persona natural join pacient natural join hospital natural join ciutat;
