@@ -2,51 +2,24 @@
 CREATE OR REPLACE FUNCTION ingresaPacient(p_nom VARCHAR(100), p_cognom VARCHAR(100), p_estat VARCHAR(100))
 RETURNS VARCHAR(100) AS $$
 DECLARE
-  v_mensaje VARCHAR(100);
-BEGIN
-  IF p_estat = 'molt greu' THEN
-    -- Si la persona está en estat 'molt greu', ocuparà una UCI.
-    INSERT INTO hospital(nom, cognom, estat) VALUES (p_nom, p_cognom, p_estat);
-    v_mensaje := 'La persona es troba a l\'UCI';
-  ELSE
-    -- Si la persona no es troba 'molt greu', es donarà d'alta.
-    INSERT INTO hospital(nom, cognom, estat) VALUES (p_nom, p_cognom, p_estat);
-    v_mensaje := 'La persona es queda a l\'hospital';
-  END IF;
-
-  RETURN v_mensaje;
-END;
-$$ LANGUAGE plpgsql;
-----------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION ingresaPacient(p_nom VARCHAR(100), p_cognom VARCHAR(100), p_estat VARCHAR(100))
-RETURNS VARCHAR(100) AS $$
-DECLARE
-  v_mensaje VARCHAR(100);
   v_idhospital bigint;
 BEGIN
   IF p_estat = 'molt greu' THEN
     -- Si la persona está en estado 'molt greu', ocupará una UCI.
     INSERT INTO persona(nom, cognom) VALUES (p_nom, p_cognom) RETURNING idpersona INTO v_idhospital;
     INSERT INTO pacient(idpersona, planta, ocupauci, estat) VALUES (v_idhospital, 'UCI', true, p_estat);
-    v_mensaje := 'La persona se encuentra en la UCI';
+    RAISE NOTICE 'La persona % % se encuentra en la UCI', p_nom, p_cognom;
   ELSE
     -- Si la persona no se encuentra en estado 'molt greu', se dará de alta en una habitación.
     INSERT INTO persona(nom, cognom) VALUES (p_nom, p_cognom) RETURNING idpersona INTO v_idhospital;
     INSERT INTO pacient(idpersona, planta, ocupauci, estat) VALUES (v_idhospital, 'Planta 1', false, p_estat);
-    v_mensaje := 'La persona se queda en el hospital';
+    RAISE NOTICE 'La persona % % se queda en el hospital', p_nom, p_cognom;
   END IF;
 
-  RETURN v_mensaje;
+  RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 -- REVISA PACIENT -- CORREGIDA
 CREATE OR REPLACE FUNCTION actualizaEstadoPaciente(p_idpacient BIGINT, p_nou_estat TEXT)
 RETURNS VOID AS $$
