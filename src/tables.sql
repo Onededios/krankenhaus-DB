@@ -33,6 +33,14 @@ CREATE TABLE krankenhaus_schema.pacient (
     CONSTRAINT fk_pacient_persona FOREIGN KEY (idpersona) REFERENCES krankenhaus_schema.persona (idpersona) ON DELETE CASCADE
 );
 
+CREATE TABLE krankenhaus_schema.vacuna (
+    idvacuna SERIAL PRIMARY KEY,
+    nomvacuna TEXT NOT NULL,
+    laboratori TEXT,
+    numdosis DECIMAL NOT NULL,
+    CONSTRAINT unq_vacuna_nomvacuna UNIQUE (nomvacuna)
+);
+
 CREATE TABLE krankenhaus_schema.cartillavacunes (
     idcartilla SERIAL PRIMARY KEY,
     idpacient BIGINT NOT NULL,
@@ -42,14 +50,6 @@ CREATE TABLE krankenhaus_schema.cartillavacunes (
     date3vacunacio DATE,
     CONSTRAINT fk_cartillavacunes_pacient FOREIGN KEY (idpacient) REFERENCES krankenhaus_schema.pacient (idpacient) ON DELETE CASCADE,
     CONSTRAINT fk_cartillavacunes_vacuna FOREIGN KEY (idvacuna) REFERENCES krankenhaus_schema.vacuna (idvacuna) ON DELETE CASCADE
-);
-
-CREATE TABLE krankenhaus_schema.vacuna (
-    idvacuna SERIAL PRIMARY KEY,
-    nomvacuna TEXT NOT NULL,
-    laboratori TEXT,
-    numdosis DECIMAL NOT NULL,
-    CONSTRAINT unq_vacuna_nomvacuna UNIQUE (nomvacuna)
 );
 
 CREATE TABLE krankenhaus_schema.virus (
