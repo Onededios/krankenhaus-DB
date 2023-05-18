@@ -33,7 +33,7 @@ CREATE  TABLE krankenhaus_schema.pacient (
 	ocupauci             boolean    ,
 	estat                text    ,
 	CONSTRAINT unq_pacient_idpersona UNIQUE ( idpersona ) ,
-    CONSTRAINT fk_pacient_persona FOREIGN KEY (idpersona) REFERENCES persona (idpersona) ON DELETE CASCADE
+    CONSTRAINT fk_pacient_persona FOREIGN KEY (idpersona) REFERENCES krankenhaus_schema.persona (idpersona) ON DELETE CASCADE
  );
 
 ALTER TABLE krankenhaus_schema.pacient ADD CONSTRAINT fk2_pacient_persona FOREIGN KEY ( idpersona ) REFERENCES krankenhaus_schema.persona ( idpersona );
@@ -76,27 +76,27 @@ CREATE  TABLE krankenhaus_schema.stock (
 
 ALTER TABLE krankenhaus_schema.stock ADD CONSTRAINT fk_stock_vacuna_0 FOREIGN KEY ( idvacuna ) REFERENCES krankenhaus_schema.vacuna ( idvacuna );
 
-ALTER TABLE stock ADD CONSTRAINT fk_stock_hospital_0 FOREIGN KEY ( idhospital ) REFERENCES hospital( idhospital );
+ALTER TABLE krankenhaus_schema.stock ADD CONSTRAINT fk_stock_hospital_0 FOREIGN KEY ( idhospital ) REFERENCES krankenhaus_schema.hospital ( idhospital );
 
 CREATE  TABLE treballador (
 	idtreballador        SERIAL  PRIMARY KEY  ,
 	idpersona            bigint  NOT NULL  ,
-    CONSTRAINT fk_treballador_persona FOREIGN KEY (idpersona) REFERENCES persona (idpersona) ON DELETE CASCADE
+    CONSTRAINT fk_treballador_persona FOREIGN KEY (idpersona) REFERENCES krankenhaus_schema.persona (idpersona) ON DELETE CASCADE
  );
 
-ALTER TABLE treballador ADD CONSTRAINT fk_treballador_persona_0 FOREIGN KEY ( idpersona ) REFERENCES persona( idpersona );
+ALTER TABLE krankenhaus_schema.treballador ADD CONSTRAINT fk_treballador_persona_0 FOREIGN KEY ( idpersona ) REFERENCES krankenhaus_schema.persona ( idpersona );
 
-CREATE  TABLE doctor (
+CREATE  TABLE krankenhaus_schema.doctor (
 	iddoctor             SERIAL PRIMARY KEY  ,
 	idtreballador        bigint  NOT NULL  ,
 	idpacient            bigint    ,
 	especialitat         text    ,
-    CONSTRAINT fk_doctor_treballador FOREIGN KEY (idtreballador) REFERENCES treballador (idtreballador) ON DELETE CASCADE
+    CONSTRAINT fk_doctor_treballador FOREIGN KEY (idtreballador) REFERENCES krankenhaus_schema.treballador (idtreballador) ON DELETE CASCADE
  );
 
-ALTER TABLE doctor ADD CONSTRAINT fk_doctor_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES treballador( idtreballador );
+ALTER TABLE krankenhaus_schema.doctor ADD CONSTRAINT fk_doctor_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES krankenhaus_schema.treballador ( idtreballador );
 
-ALTER TABLE doctor ADD CONSTRAINT fk_doctor_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES pacient( idpacient );
+ALTER TABLE krankenhaus_schema.doctor ADD CONSTRAINT fk_doctor_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES krankenhaus_schema.pacient ( idpacient );
 
 CREATE  TABLE enfermer (
 	idenfermer           SERIAL PRIMARY KEY  ,
@@ -104,18 +104,18 @@ CREATE  TABLE enfermer (
 	idpacient            bigint    ,
 	especilitat          text    ,
 	CONSTRAINT unq_enfermer_idpacient UNIQUE ( idpacient )  ,
-    CONSTRAINT fk_enfermer_treballador FOREIGN KEY (idtreballador) REFERENCES treballador (idtreballador) ON DELETE CASCADE
+    CONSTRAINT fk_enfermer_treballador FOREIGN KEY (idtreballador) REFERENCES krankenhaus_schema.treballador (idtreballador) ON DELETE CASCADE
  );
 
-ALTER TABLE enfermer ADD CONSTRAINT fk_enfermer_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES treballador( idtreballador );
+ALTER TABLE krankenhaus_schema.enfermer ADD CONSTRAINT fk_enfermer_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES krankenhaus_schema.treballador ( idtreballador );
 
-ALTER TABLE enfermer ADD CONSTRAINT fk_enfermer_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES pacient( idpacient );
+ALTER TABLE krankenhaus_schema.enfermer ADD CONSTRAINT fk_enfermer_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES krankenhaus_schema.pacient ( idpacient );
 
 CREATE  TABLE administratiu (
 	idadministratiu      SERIAL PRIMARY KEY  ,
 	idtreballador        bigint  NOT NULL  ,
 	carg                 text    ,
-    CONSTRAINT fk_administratiu_treballador FOREIGN KEY (idtreballador) REFERENCES treballador (idtreballador) ON DELETE CASCADE
+    CONSTRAINT fk_administratiu_treballador FOREIGN KEY (idtreballador) REFERENCES krankenhaus_schema.treballador (idtreballador) ON DELETE CASCADE
  );
 
-ALTER TABLE administratiu ADD CONSTRAINT fk_administratiu_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES treballador( idtreballador );
+ALTER TABLE krankenhaus_schema.administratiu ADD CONSTRAINT fk_administratiu_treballador_0 FOREIGN KEY ( idtreballador ) REFERENCES krankenhaus_schema.treballador( idtreballador );
