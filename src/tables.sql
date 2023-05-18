@@ -43,6 +43,8 @@ CREATE  TABLE krankenhaus_schema.cartillavacunes (
 	idpacient            bigint  NOT NULL  ,
 	idvacuna             bigint  NOT NULL  ,
 	datavacunacio        date  NOT NULL  ,
+	data2vacunacio       date ,
+	date3vacunacio       date ,
     CONSTRAINT fk_pacient_cartilla FOREIGN KEY (idpacient) REFERENCES krankenhaus_schema.pacient (idpacient) ON DELETE CASCADE
  );
 

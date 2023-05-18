@@ -1,25 +1,30 @@
 CREATE ROLE pacient;
 GRANT SELECT ON pacient, cartillavacunes, hospital, vacuna TO pacient;
 GRANT CONNECT ON DATABASE krankenhaus TO pacient;
+GRANT USAGE ON SCHEMA krankenhaus_schema TO pacient;
 
 CREATE ROLE doctor;
 GRANT SELECT, UPDATE ON pacient, cartillavacunes TO doctor;
 GRANT SELECT ON stock, enfermer TO doctor;
 GRANT CONNECT ON DATABASE krankenhaus TO doctor;
+GRANT USAGE ON SCHEMA krankenhaus_schema TO doctor;
 
 CREATE ROLE enfermer;
 GRANT SELECT ON pacient, cartillavacunes, doctor, stock TO enfermer;
 GRANT CONNECT ON DATABASE krankenhaus TO enfermer;
+GRANT USAGE ON SCHEMA krankenhaus_schema TO enfermer;
 
 CREATE ROLE administratiu;
 GRANT SELECT, UPDATE, INSERT, DELETE ON pacient, cartillavacunes, doctor, enfermer, stock, persona, treballador TO administratiu;
 GRANT SELECT ON hospital, vacuna, virus TO administratiu;
 GRANT CONNECT ON DATABASE krankenhaus TO administratiu;
+GRANT USAGE ON SCHEMA krankenhaus_schema TO administratiu;
 
 CREATE ROLE admin;
 GRANT ALL PRIVILEGES ON DATABASE krankenhaus TO admin;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
 GRANT CONNECT ON DATABASE krankenhaus TO admin;
+GRANT USAGE ON SCHEMA krankenhaus_schema TO admin;
 
 CREATE USER jrodriguez WITH ENCRYPTED PASSWORD 'passwd' IN ROLE admin;
 
