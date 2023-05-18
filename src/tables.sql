@@ -80,7 +80,7 @@ ALTER TABLE krankenhaus_schema.stock ADD CONSTRAINT fk_stock_vacuna_0 FOREIGN KE
 
 ALTER TABLE krankenhaus_schema.stock ADD CONSTRAINT fk_stock_hospital_0 FOREIGN KEY ( idhospital ) REFERENCES krankenhaus_schema.hospital ( idhospital );
 
-CREATE  TABLE treballador (
+CREATE  TABLE krankenhaus_schema.treballador (
 	idtreballador        SERIAL  PRIMARY KEY  ,
 	idpersona            bigint  NOT NULL  ,
     CONSTRAINT fk_treballador_persona FOREIGN KEY (idpersona) REFERENCES krankenhaus_schema.persona (idpersona) ON DELETE CASCADE
@@ -100,7 +100,7 @@ ALTER TABLE krankenhaus_schema.doctor ADD CONSTRAINT fk_doctor_treballador_0 FOR
 
 ALTER TABLE krankenhaus_schema.doctor ADD CONSTRAINT fk_doctor_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES krankenhaus_schema.pacient ( idpacient );
 
-CREATE  TABLE enfermer (
+CREATE  TABLE krankenhaus_schema.enfermer (
 	idenfermer           SERIAL PRIMARY KEY  ,
 	idtreballador        bigint  NOT NULL  ,
 	idpacient            bigint    ,
@@ -113,7 +113,7 @@ ALTER TABLE krankenhaus_schema.enfermer ADD CONSTRAINT fk_enfermer_treballador_0
 
 ALTER TABLE krankenhaus_schema.enfermer ADD CONSTRAINT fk_enfermer_pacient_0 FOREIGN KEY ( idpacient ) REFERENCES krankenhaus_schema.pacient ( idpacient );
 
-CREATE  TABLE administratiu (
+CREATE  TABLE krankenhaus_schema.administratiu (
 	idadministratiu      SERIAL PRIMARY KEY  ,
 	idtreballador        bigint  NOT NULL  ,
 	carg                 text    ,
