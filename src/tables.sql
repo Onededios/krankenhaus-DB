@@ -36,14 +36,13 @@ CREATE  TABLE pacient (
     CONSTRAINT fk_pacient_persona FOREIGN KEY (idpersona) REFERENCES persona (idpersona) ON DELETE CASCADE
  );
 
-ALTER TABLE pacient ADD CONSTRAINT fk_pacient_persona FOREIGN KEY ( idpersona ) REFERENCES persona ( idpersona );
+ALTER TABLE pacient ADD CONSTRAINT fk2_pacient_persona FOREIGN KEY ( idpersona ) REFERENCES persona ( idpersona );
 
 CREATE  TABLE cartillavacunes (
 	idcartilla           SERIAL  PRIMARY KEY  ,
 	idpacient            bigint  NOT NULL  ,
 	idvacuna             bigint  NOT NULL  ,
 	datavacunacio        date  NOT NULL  ,
-	CONSTRAINT unq_cartilla_idpacient UNIQUE ( idpacient )  ,
     CONSTRAINT fk_pacient_cartilla FOREIGN KEY (idpacient) REFERENCES pacient (idpacient) ON DELETE CASCADE
  );
 

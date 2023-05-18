@@ -79,12 +79,12 @@ INSERT INTO administratiu ( idtreballador, carg ) VALUES
 
 INSERT INTO doctor ( idtreballador, idpacient, especialitat ) VALUES
 ( 3, 2, 'Cardióleg' ),
-( 4, 0, 'Pediatra' ),
+( 4, 1, 'Pediatra' ),
 ( 5, 8, 'Psiquiatra' );
 
 INSERT INTO enfermer ( idtreballador, idpacient, especilitat ) VALUES
 ( 6, 2, 'Infermer mèdico-quirúrgic' ),
-( 7, 0, 'Infermer de cures intensives' ),
+( 7, 1, 'Infermer de cures intensives' ),
 ( 8, 8, 'Infermer pediàtric' ),
 ( 9, 1, 'Infermer geriàtric' ),
 ( 10, 9, 'Infermer comunitàri' );
