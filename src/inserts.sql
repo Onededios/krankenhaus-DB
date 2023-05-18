@@ -1,95 +1,106 @@
-INSERT INTO ciutat ( idciutat, nomciutat ) VALUES
-( 0, 'Rhode Island' ),
-( 1, 'Indiana' ),
-( 2, 'California' ),
-( 3, 'Connecticut' ),
-( 4, 'Wisconsin' ),
-( 5, NULL ),
-( 6, 'Louisiana' ),
-( 7, 'Illinois' ),
-( 8, 'Texas' ),
-( 9, 'Washington' );
-INSERT INTO hospital ( idhospital, nomhospital, numllitsucilliures, ciutat ) VALUES
-( 0, 'Rapzapin Direct Company', 29337656, 'Illinois' ),
-( 1, 'Klibanollover WorldWide Company', 8965434, 'Louisiana' ),
-( 2, 'Klierplar WorldWide Group', 85468095, 'Rhode Island' );
-INSERT INTO persona ( idpersona, idhospital, nom, cognom, datanaixement ) VALUES 
-( 0, 2, 'Latoya', 'Cisneros', '2018-02-24' ),
-( 1, 0, 'Casey', 'Blackburn', '2016-03-19' ) ,
-( 2, 1, 'Lakeisha', 'Byrd', '2004-05-09' ) ,
-( 3, 1, 'Colleen', 'Miles', '2005-09-08' ) ,
-( 4, 0, 'Alice', 'Ingram', NULL ) ,
-( 5, 0, 'Bernard', 'Neal', '2000-06-30' ) ,
-( 6, 0, 'Howard', 'White', '2013-12-26' ) ,
-( 7, 1, 'Hector', 'Daniels', '2016-02-06' ) ,
-( 8, 2, 'Vernon', 'Barrera', '2003-01-09' ) ,
-( 9, 2, 'Mike', 'Middleton', '2018-06-29' ) ,
-( 10, 0, 'Marissa', 'Haynes', '2015-04-11' ) ,
-( 11, 0, 'Ruby', 'Garrett', '2000-01-25' ) ,
-( 12, 2, 'Joni', 'Rodgers', '2014-09-23' ) ,
-( 13, 0, 'Duane', 'Moreno', '2019-02-15' ) ,
-( 14, 2, 'Harry', 'Ellison', '2016-06-21' ) ,
-( 15, 1, 'Luz', 'Ryan', '2003-10-10' ) ,
-( 16, 2, 'Salvatore', 'Matthews', '2006-07-10' ) ,
-( 17, 2, 'Byron', 'Newman', '2015-01-12' ) ,
-( 18, 2, 'Sammy', 'George', '2005-08-10' ) ,
-( 19, 1, 'Anthony', 'Hoffman', '2004-08-08' );
-INSERT INTO treballador ( idtreballador, idpersona ) VALUES
-( 0, 10 ),
-( 1, 11 ),
-( 2, 12 ),
-( 3, 13 ),
-( 4, 14 ),
-( 5, 15 ),
-( 6, 16 ),
-( 7, 17 ),
-( 8, 18 ),
-( 9, 19 );
-INSERT INTO administratiu ( idadministratiu, idtreballador, carg ) VALUES 
-( 0, 0, 'Atenció al client' ), 
-( 1, 1, 'Control de gestió' );
-INSERT INTO pacient ( idpacient, idpersona, planta, habitacio, estat, ocupauci ) VALUES
- ( 0, 0, 'Baixa', '023', 'molt greu', true ),
- ( 1, 1, 'Primera', '143', 'greu', true ),
- ( 2, 2, 'Segona', '246', 'moderat', false ),
- ( 3, 3, 'Tercera', '332', 'lleu', false ),
- ( 4, 4, 'Quarta', '419', 'fora de perill', true ),
- ( 5, 5, 'Cinquena', '503', 'greu', true ),
- ( 6, 6, 'Sisena', '602', 'lleu', false ),
- ( 7, 7, 'Segona', '215', 'moderat', true ),
- ( 8, 8, 'Primera', '108', 'molt greu', true ),
- ( 9, 9, 'Baixa', '016', 'moderat', false );
-INSERT INTO doctor ( iddoctor, idtreballador, idpacient, especialitat ) VALUES 
-( 0, 2, 2, 'Cardióleg' ),
-( 1, 3, 0, 'Pediatra' ),
-( 2, 4, 8, 'Psiquiatra' );
-INSERT INTO enfermer ( idenfermer, idtreballador, idpacient, especilitat ) VALUES 
-( 0, 5, 2, 'Infermer mèdico-quirúrgic' ),
-( 1, 6, 0, 'Infermer de cures intensives' ),
- ( 2, 7, 8, 'Infermer pediàtric' ),
-( 3, 8, 1, 'Infermer geriàtric' ),
-( 4, 9, 9, 'Infermer comunitàri' );
- INSERT INTO stock ( idvacuna, idhospital, vacuna, qty ) VALUES
- ( 0, 2, 'Latoya Spencer', 73105736 ),
- ( 1, 0, 'Terminator', 7099203 ),
- ( 2, 1, 'Lakeisha Montes', 6712000 ),
- ( 3, 1, 'Colleen Proctor', 76815698 );
- INSERT INTO virus ( idvirus, idpacient, idvacuna, vacuna, nomvirus, numvariant ) VALUES
- ( 0, 7, 0, 'Latoya Spencer', 'Alex Cremento', 379250082 ),
- ( 1, 1, 1, 'Terminator', 'Dolores Delano', 1049914525 ),
- ( 2, 4, 2, 'Lakeisha Montes', 'Lola Mento', 1774486701 );
-INSERT INTO vacuna ( idvacuna, nomvacuna, laboratori, numdosis ) VALUES
-( 0, 'Latoya Spencer', 'Monfropepistor Holdings Company', 7.31057369148862E7 ),
-( 1, 'Terminator', 'Skynet Labs', 7099203.475193139 ),
-( 2, 'Lakeisha Montes', 'Barcador Holdings Group', 6712000.939049955 );
-INSERT INTO cartillavacunes ( idcartilla, idpacient, idvacuna, datavacunacio ) VALUES
- ( 0, 7, 0, '2014-08-15' ),
- ( 1, 1, 2, '2011-04-01' ),
- ( 2, 4, 1, '2001-06-02' ),
- ( 3, 4, 0, '2016-02-08' ),
- ( 4, 2, 1, '2001-05-05' ),
- ( 5, 0, 2, '2011-08-21' ),
- ( 6, 3, 0, '2015-05-13' ),
- ( 7, 6, 2, '2011-07-03' ),
- ( 8, 9, 2, '2004-07-18' ),
- ( 9, 7, 1, '2017-01-17' );
+INSERT INTO ciutat ( nomciutat ) VALUES
+( 'Oklahoma' ) ,
+( 'Rhode Island' ),
+( 'West Virginia' ),
+( 'Indiana' ) ,
+( 'California' ),
+( 'Masachusetts' ) ,
+( 'Ohio' ) ,
+( 'Connecticut' ),
+( 'New Hampshire' ),
+( 'Wisconsin' );
+
+INSERT INTO hospital ( nomhospital, numllitsucilliures, idciutat ) VALUES
+( 'Rapzapin Direct Company', 730, 7 ) ,
+( 'Klibanollover WorldWide Company', 900, 5 ),
+( 'Klierplar WorldWide Group', 496, 1 ) ;
+
+INSERT INTO persona ( idhospital, nom, cognom, datanaixement ) VALUES
+( 3, 'Abel', 'Spencer', '2011-04-01' ) ,
+( 3, 'Erick', 'Leonard', NULL ) ,
+( 3, 'Janice', 'Montes', '2001-05-05' ) ,
+( 3, 'Gretchen', 'Proctor', '2015-05-13' ) ,
+( 3, 'Lawanda', 'Velazquez', '2004-07-18' ) ,
+( 1, 'Robbie', 'Wilkins', '2013-03-16' ) ,
+( 3, 'Carla', 'Randall', '2016-02-18' ) ,
+( 1, 'Heath', 'Dickson', NULL ) ,
+( 1, 'Kendra', 'Rodgers', NULL ) ,
+( 2, 'Brandie', 'Finley', '2016-03-22' ) ,
+( 1, 'Rose', 'Escobar', '2018-11-28' ) ,
+( 3, 'Ernest', 'Robinson', '2003-01-20' ) ,
+( 3, 'Randal', 'Larsen', '2018-03-16' ) ,
+( 3, 'Ismael', 'Dickerson', '2019-12-25' ) ,
+( 3, 'Keri', 'Brennan', NULL ) ,
+( 1, 'Cameron', 'Bass', '2002-10-07' ) ,
+( 1, 'Roberta', 'Morse', '2009-08-01' ) ,
+( 2, 'Colby', 'Boone', '2010-11-07' ) ,
+( 3, 'Cornelius', 'Herring', '2009-04-08' ) ,
+( 2, 'Teddy', 'Martin', NULL ) ;
+
+INSERT INTO pacient ( idpersona, planta, habitacio, estat, ocupauci ) VALUES
+( 1, 'Baixa', '023', 'molt greu', true ),
+( 2, 'Primera', '143', 'greu', true ),
+( 3, 'Segona', '246', 'moderat', false ),
+( 4, 'Tercera', '332', 'lleu', false ),
+( 5, 'Quarta', '419', 'fora de perill', true ),
+( 6, 'Cinquena', '503', 'greu', true ),
+( 7, 'Sisena', '602', 'lleu', false ),
+( 8, 'Segona', '215', 'moderat', true ),
+( 9, 'Primera', '108', 'molt greu', true ),
+( 10, 'Baixa', '016', 'moderat', false );
+
+INSERT INTO treballador ( idpersona ) VALUES
+( 11 ),
+( 12 ),
+( 13 ),
+( 14 ),
+( 15 ),
+( 16 ),
+( 17 ),
+( 18 ),
+( 19 ),
+( 20 );
+
+INSERT INTO administratiu ( idtreballador, carg ) VALUES
+( 1, 'Technical Customer' ) ,
+( 2, 'National Marketing' ) ;
+
+INSERT INTO doctor ( idtreballador, idpacient, especialitat ) VALUES
+( 3, 2, 'Cardióleg' ),
+( 4, 1, 'Pediatra' ),
+( 5, 8, 'Psiquiatra' );
+
+INSERT INTO enfermer ( idtreballador, idpacient, especilitat ) VALUES
+( 6, 2, 'Infermer mèdico-quirúrgic' ),
+( 7, 1, 'Infermer de cures intensives' ),
+( 8, 8, 'Infermer pediàtric' ),
+( 9, 3, 'Infermer geriàtric' ),
+( 10, 9, 'Infermer comunitàri' );
+
+INSERT INTO vacuna ( nomvacuna, laboratori, numdosis ) VALUES
+( 'Latoya Spencer', 'Monfropepistor Holdings Company', 7.31057369148862E7 ),
+( 'Terminator', 'Skynet Labs', 7099203.475193139 ),
+( 'Lakeisha Montes', 'Barcador Holdings Group', 6712000.939049955 );
+
+INSERT INTO cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
+( 8, 3, '2014-08-15' ) ,
+( 2, 1, '2011-04-01' ) ,
+( 5, 3, '2001-06-02' ) ,
+( 5, 1, '2016-02-08' ) ,
+( 3, 2, '2001-05-05' ) ,
+( 1, 3, '2011-08-21' ) ,
+( 4, 3, '2015-05-13' ) ,
+( 7, 1, '2011-07-03' ) ,
+( 10, 3, '2004-07-18' ) ,
+( 8, 3, '2017-01-17' ) ;
+
+INSERT INTO virus ( idvacuna, nomvirus, numvariant ) VALUES
+ ( 3, 'Alex Cremento', 379250082 ),
+ ( 2, 'Dolores Delano', 1049914525 ),
+ ( 1, 'Lola Mento', 1774486701 );
+
+INSERT INTO stock ( idvacuna, idhospital, qty ) VALUES
+ ( 1, 3, 73105736 ),
+ ( 2, 1, 7099203 ),
+ ( 3, 2, 6712000 ),
+ ( 1, 2, 76815698 );
