@@ -49,7 +49,7 @@ $$ LANGUAGE plpgsql;
 SELECT * FROM actualizaEstadoPaciente(123, 'fora de perill');
 
 -- FICAR STOCK -- CORREGIDA
-CREATE OR REPLACE FUNCTION ficaStock(p_nombre_vacuna VARCHAR(100))
+CREATE OR REPLACE FUNCTION ficaStock(p_nombre_vacuna TEXT)
 RETURNS INTEGER AS $$
 DECLARE
   v_suma INTEGER;
