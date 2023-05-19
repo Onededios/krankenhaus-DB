@@ -1,24 +1,31 @@
--- INGRESA PACIENT --
-CREATE OR REPLACE FUNCTION ingresaPacient(p_nom VARCHAR(100), p_cognom VARCHAR(100), p_estat VARCHAR(100))
+-- INGRESA PACIENT -- CORREGIRLO
+CREATE OR REPLACE FUNCTION ingresaPacient(p_idpacient INTEGER)
 RETURNS VARCHAR(100) AS $$
 DECLARE
   v_idhospital bigint;
+  p_nom TEXT;
+  p_cognom TEXT;
+  v_estat TEXT;
+
 BEGIN
-  IF p_estat = 'molt greu' THEN
+  SELECT nom INTO p_nom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  SELECT cognom INTO p_cognom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  SELECT estat INTO v_estat FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  IF v_estat = 'molt greu' THEN
     -- Si la persona está en estado 'molt greu', ocupará una UCI.
-    INSERT INTO persona(nom, cognom) VALUES (p_nom, p_cognom) RETURNING idpersona INTO v_idhospital;
-    INSERT INTO pacient(idpersona, planta, ocupauci, estat) VALUES (v_idhospital, 'UCI', true, p_estat);
+    UPDATE pacient SET ocupauci = true WHERE idpacient = p_idpacient;
     RAISE NOTICE 'La persona % % se encuentra en la UCI', p_nom, p_cognom;
   ELSE
     -- Si la persona no se encuentra en estado 'molt greu', se dará de alta en una habitación.
-    INSERT INTO persona(nom, cognom) VALUES (p_nom, p_cognom) RETURNING idpersona INTO v_idhospital;
-    INSERT INTO pacient(idpersona, planta, ocupauci, estat) VALUES (v_idhospital, 'Planta 1', false, p_estat);
+    UPDATE pacient SET ocupauci = false WHERE idpacient = p_idpacient;
     RAISE NOTICE 'La persona % % se queda en el hospital', p_nom, p_cognom;
   END IF;
 
   RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
+
+SELECT * FROM ingresaPacient(1);
 --------------------------------------------------------------------------------------
 -- REVISA PACIENT -- CORREGIDA
 CREATE OR REPLACE FUNCTION actualizaEstadoPaciente(p_idpacient BIGINT, p_nou_estat TEXT)
@@ -55,6 +62,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+SELECT * FROM ficaStock('Terminator');
 
 -- POSA DOSIS 1 --
 CREATE OR REPLACE FUNCTION posaDosis1(p_id_persona INTEGER, p_fecha_primera_dosis DATE)
@@ -66,7 +74,7 @@ BEGIN
   v_fecha_segunda_dosis := p_fecha_primera_dosis + INTERVAL '120 days';
   v_fecha_tercera_dosis := v_fecha_segunda_dosis + INTERVAL '120 days';
 
-  INSERT INTO cartillavacunes (idcartilla, idpacient, idvacuna, datavacunacio, data2vacunacio, data3vacunacio)
+  UPDATE INTO cartillavacunes (idcartilla, idpacient, idvacuna, datavacunacio, data2vacunacio, data3vacunacio)
   VALUES (p_id_persona, p_fecha_primera_dosis, 1), (p_id_persona, v_fecha_segunda_dosis, 2), (p_id_persona, v_fecha_tercera_dosis, 3);
 
 END;
@@ -90,11 +98,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
  -- ES NECESARIO CREAR EL TRIGGER PARA QUE LA FUNCIÓN ESTE CORRECTA --
 CREATE TRIGGER trigger_avisa_poc_stock
 AFTER INSERT ON stock
 FOR EACH ROW
 EXECUTE FUNCTION avisaPocStock();
+
+-- PARA ACTIVAR EL TRIGGER NECESITAMOS HACER UN INSERT O UPDATE --
+UPDATE or INSERT
 
 -- Llista Pacients Cartilla -- CORREGIDA
 CREATE OR REPLACE FUNCTION mostrar_pacientes_hospitalizados()
@@ -113,3 +125,6 @@ BEGIN
   INNER JOIN persona AS p ON pc.idpersona = p.idpersona;
 END;
 $$ LANGUAGE plpgsql;
+
+-- PARA MOSTRAR LOS PACIENTES HOSPITALIZADOS --
+SELECT * FROM mostrar_pacientes_hospitalizados();
