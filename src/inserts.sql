@@ -1,4 +1,4 @@
-INSERT INTO ciutat ( nomciutat ) VALUES
+INSERT INTO krankenhaus_schema.ciutat ( nomciutat ) VALUES
 ( 'Oklahoma' ) ,
 ( 'Rhode Island' ),
 ( 'West Virginia' ),
@@ -10,12 +10,12 @@ INSERT INTO ciutat ( nomciutat ) VALUES
 ( 'New Hampshire' ),
 ( 'Wisconsin' );
 
-INSERT INTO hospital ( nomhospital, numllitsucilliures, idciutat ) VALUES
+INSERT INTO krankenhaus_schema.hospital ( nomhospital, numllitsucilliures, idciutat ) VALUES
 ( 'Rapzapin Direct Company', 730, 7 ) ,
 ( 'Klibanollover WorldWide Company', 900, 5 ),
 ( 'Klierplar WorldWide Group', 496, 1 ) ;
 
-INSERT INTO persona ( idhospital, nom, cognom, datanaixement ) VALUES
+INSERT INTO krankenhaus_schema.persona ( idhospital, nom, cognom, datanaixement ) VALUES
 ( 3, 'Abel', 'Spencer', '2011-04-01' ) ,
 ( 3, 'Erick', 'Leonard', NULL ) ,
 ( 3, 'Janice', 'Montes', '2001-05-05' ) ,
@@ -37,7 +37,7 @@ INSERT INTO persona ( idhospital, nom, cognom, datanaixement ) VALUES
 ( 3, 'Cornelius', 'Herring', '2009-04-08' ) ,
 ( 2, 'Teddy', 'Martin', NULL ) ;
 
-INSERT INTO pacient ( idpersona, planta, habitacio, estat, ocupauci ) VALUES
+INSERT INTO krankenhaus_schema.pacient ( idpersona, planta, habitacio, estat, ocupauci ) VALUES
 ( 1, 'Baixa', '023', 'molt greu', true ),
 ( 2, 'Primera', '143', 'greu', true ),
 ( 3, 'Segona', '246', 'moderat', false ),
@@ -49,7 +49,7 @@ INSERT INTO pacient ( idpersona, planta, habitacio, estat, ocupauci ) VALUES
 ( 9, 'Primera', '108', 'molt greu', true ),
 ( 10, 'Baixa', '016', 'moderat', false );
 
-INSERT INTO treballador ( idpersona ) VALUES
+INSERT INTO krankenhaus_schema.treballador ( idpersona ) VALUES
 ( 11 ),
 ( 12 ),
 ( 13 ),
@@ -61,28 +61,28 @@ INSERT INTO treballador ( idpersona ) VALUES
 ( 19 ),
 ( 20 );
 
-INSERT INTO administratiu ( idtreballador, carg ) VALUES
+INSERT INTO krankenhaus_schema.administratiu ( idtreballador, carg ) VALUES
 ( 1, 'Technical Customer' ) ,
 ( 2, 'National Marketing' ) ;
 
-INSERT INTO doctor ( idtreballador, idpacient, especialitat ) VALUES
+INSERT INTO krankenhaus_schema.doctor ( idtreballador, idpacient, especialitat ) VALUES
 ( 3, 2, 'Cardióleg' ),
 ( 4, 1, 'Pediatra' ),
 ( 5, 8, 'Psiquiatra' );
 
-INSERT INTO enfermer ( idtreballador, idpacient, especilitat ) VALUES
+INSERT INTO krankenhaus_schema.enfermer ( idtreballador, idpacient, especilitat ) VALUES
 ( 6, 2, 'Infermer mèdico-quirúrgic' ),
 ( 7, 1, 'Infermer de cures intensives' ),
 ( 8, 8, 'Infermer pediàtric' ),
 ( 9, 3, 'Infermer geriàtric' ),
 ( 10, 9, 'Infermer comunitàri' );
 
-INSERT INTO vacuna ( nomvacuna, laboratori, numdosis ) VALUES
+INSERT INTO krankenhaus_schema.vacuna ( nomvacuna, laboratori, numdosis ) VALUES
 ( 'Latoya Spencer', 'Monfropepistor Holdings Company', 7.31057369148862E7 ),
 ( 'Terminator', 'Skynet Labs', 7099203.475193139 ),
 ( 'Lakeisha Montes', 'Barcador Holdings Group', 6712000.939049955 );
 
-INSERT INTO cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
+INSERT INTO krankenhaus_schema.cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
 ( 8, 3, '2014-08-15' ) ,
 ( 2, 1, '2011-04-01' ) ,
 ( 5, 3, '2001-06-02' ) ,
@@ -94,12 +94,12 @@ INSERT INTO cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
 ( 10, 3, '2004-07-18' ) ,
 ( 8, 3, '2017-01-17' ) ;
 
-INSERT INTO virus ( idvacuna, nomvirus, numvariant ) VALUES
+INSERT INTO krankenhaus_schema.virus ( idvacuna, nomvirus, numvariant ) VALUES
  ( 3, 'Alex Cremento', 379250082 ),
  ( 2, 'Dolores Delano', 1049914525 ),
  ( 1, 'Lola Mento', 1774486701 );
 
-INSERT INTO stock ( idvacuna, idhospital, qty ) VALUES
+INSERT INTO krankenhaus_schema.stock ( idvacuna, idhospital, qty ) VALUES
  ( 1, 3, 73105736 ),
  ( 2, 1, 7099203 ),
  ( 3, 2, 6712000 ),
