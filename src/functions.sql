@@ -1,82 +1,101 @@
--- INGRESA PACIENT -- CORREGIRLO
-CREATE OR REPLACE FUNCTION ingresaPacient(p_idpacient INTEGER)
-RETURNS VARCHAR(100) AS $$
+-- INGRESA PACIENT -- FUNCIONA
+CREATE OR REPLACE FUNCTION ingresaPacient(p_idpacient INTEGER, inp_iddoctor INTEGER)
+RETURNS void AS $$
 DECLARE
-  v_idhospital bigint;
   p_nom TEXT;
   p_cognom TEXT;
+  inp_idpersona INTEGER;
   v_estat TEXT;
-
+  inp_doctorHosp INTEGER;
+  inp_nomHosp TEXT;
 BEGIN
   SELECT nom INTO p_nom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
   SELECT cognom INTO p_cognom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
   SELECT estat INTO v_estat FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
   IF v_estat = 'molt greu' THEN
     -- Si la persona está en estado 'molt greu', ocupará una UCI.
+    SELECT idhospital INTO inp_doctorHosp FROM persona NATURAL JOIN treballador NATURAL JOIN doctor WHERE iddoctor=inp_iddoctor;
+    SELECT idpersona INTO inp_idpersona FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+
+    SELECT nomhospital INTO inp_nomHosp FROM hospital WHERE idhospital = inp_doctorHosp;
+
+    UPDATE persona SET idhospital = inp_doctorHosp WHERE idpersona = inp_idpersona;
     UPDATE pacient SET ocupauci = true WHERE idpacient = p_idpacient;
-    RAISE NOTICE 'La persona % % se encuentra en la UCI', p_nom, p_cognom;
+
+    RAISE NOTICE 'El pacient % % es troba assignat a la UCI i se li ha assignat al hospital %.', p_nom, p_cognom, inp_nomHosp;
   ELSE
     -- Si la persona no se encuentra en estado 'molt greu', se dará de alta en una habitación.
     UPDATE pacient SET ocupauci = false WHERE idpacient = p_idpacient;
-    RAISE NOTICE 'La persona % % se queda en el hospital', p_nom, p_cognom;
+    RAISE NOTICE 'El pacient % % no necessita estar assignat a la UCI.', p_nom, p_cognom;
   END IF;
-
-  RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
 SELECT * FROM ingresaPacient(1);
 --------------------------------------------------------------------------------------
--- REVISA PACIENT -- CORREGIDA
-CREATE OR REPLACE FUNCTION actualizaEstadoPaciente(p_idpacient BIGINT, p_nou_estat TEXT)
+-- REVISA PACIENT -- FUNCIONA
+CREATE OR REPLACE FUNCTION actualizaEstadoPaciente(p_idpacient INTEGER)
 RETURNS VOID AS $$
+DECLARE
+  v_idhospital bigint;
+  p_nom TEXT;
+  p_cognom TEXT;
+  v_estat TEXT;
 BEGIN
-  IF p_nou_estat = 'molt greu' THEN
+  SELECT nom INTO p_nom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  SELECT cognom INTO p_cognom FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  SELECT estat INTO v_estat FROM persona NATURAL JOIN pacient WHERE idpacient = p_idpacient;
+  IF v_estat = 'molt greu' THEN
     -- Actualizar el estado del paciente a 'molt greu' y asignarle una UCI
-    UPDATE pacient SET estat = p_nou_estat, ocupauci = true WHERE idpacient = p_idpacient;
-    RAISE NOTICE 'Este usuario % ocupa un espai en la uci',p_idpacient;
-  ELSIF p_nou_estat = 'fora de perill' THEN
-    -- Dar de alta al paciente y actualizar su estado a 'fora de perill'
-    UPDATE pacient SET estat = p_nou_estat, ocupauci = false WHERE idpacient = p_idpacient;
-    RAISE NOTICE 'Este usuario % no ocupa la uci',p_idpacient;
+    UPDATE pacient SET estat = v_estat, ocupauci = true WHERE idpacient = p_idpacient;
+    RAISE NOTICE 'El pacient % % es troba assignat a la UCI.', p_nom, p_cognom;
   ELSE
-    -- Otro caso no especificado, no realizar ninguna acción
-    RAISE NOTICE 'Estat no vàlid. No ha realitzat cap acció.';
+    -- Dar de alta al paciente y actualizar su estado a 'fora de perill'
+    UPDATE pacient SET estat = v_estat, ocupauci = false WHERE idpacient = p_idpacient;
+    RAISE NOTICE 'El pacient % % no necessita estar assignat a la UCI.', p_nom, p_cognom;
   END IF;
 END;
 $$ LANGUAGE plpgsql;
 
 SELECT * FROM actualizaEstadoPaciente(123, 'fora de perill');
 
--- FICAR STOCK -- CORREGIDA
-CREATE OR REPLACE FUNCTION ficaStock(p_nombre_vacuna TEXT)
-RETURNS INTEGER AS $$
+-- FICAR STOCK -- FUNCIONA
+CREATE OR REPLACE FUNCTION ficaStock(p_nombre_vacuna TEXT, addQTY BIGINT)
+RETURNS BIGINT AS $$
 DECLARE
-  v_suma INTEGER;
+  actQTY INTEGER;
 BEGIN
-  SELECT SUM(numdosis) INTO v_suma
-  FROM vacuna
-  WHERE nomvacuna = p_nombre_vacuna;
+    SELECT stock.qty INTO actQTY
+    FROM stock NATURAL JOIN vacuna
+    WHERE vacuna.nomvacuna = p_nombre_vacuna;
 
-  RETURN v_suma;
+    UPDATE stock SET qty = actQTY + addQTY;
+
+    SELECT stock.qty INTO actQTY
+    FROM stock NATURAL JOIN vacuna
+    WHERE nomvacuna = p_nombre_vacuna;
+
+    RAISE NOTICE 'El stock de la vacuna % ha sigut incrementat a %', p_nombre_vacuna, actQTY;
+
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM ficaStock('Terminator');
+SELECT * FROM ficaStock('Terminator', 1000000);
 
--- POSA DOSIS 1 --
-CREATE OR REPLACE FUNCTION posaDosis1(p_id_persona INTEGER, p_fecha_primera_dosis DATE)
+-- POSA DOSIS 1 -- FUNCIONA
+CREATE OR REPLACE FUNCTION posaDosis1(inp_idpacient INTEGER, inp_idvacuna INTEGER)
 RETURNS VOID AS $$
 DECLARE
-  v_fecha_segunda_dosis DATE;
-  v_fecha_tercera_dosis DATE;
+  fecha_primera_dosis DATE;
+  inp_idcartilla INTEGER;
 BEGIN
-  v_fecha_segunda_dosis := p_fecha_primera_dosis + INTERVAL '120 days';
-  v_fecha_tercera_dosis := v_fecha_segunda_dosis + INTERVAL '120 days';
+  SELECT idcartilla INTO inp_idcartilla FROM cartillavacunes WHERE idpacient=inp_idpacient;
+  SELECT datavacunacio INTO fecha_primera_dosis FROM pacient NATURAL JOIN cartillavacunes WHERE idpacient=inp_idpacient AND idvacuna=inp_idvacuna;
 
-  UPDATE INTO cartillavacunes (idcartilla, idpacient, idvacuna, datavacunacio, data2vacunacio, data3vacunacio)
-  VALUES (p_id_persona, p_fecha_primera_dosis, 1), (p_id_persona, v_fecha_segunda_dosis, 2), (p_id_persona, v_fecha_tercera_dosis, 3);
+  UPDATE cartillavacunes SET data2vacunacio = fecha_primera_dosis + INTERVAL '120 days' WHERE idcartilla = inp_idcartilla;
+  UPDATE cartillavacunes SET data3vacunacio = fecha_primera_dosis + INTERVAL '240 days' WHERE idcartilla = inp_idcartilla;
 
+  RAISE NOTICE 'El pacient té programades la data % per a la segona vacuna i la data % per a la tercera.', fecha_primera_dosis + INTERVAL '120 days', fecha_primera_dosis + INTERVAL '240 days';
 END;
 $$ LANGUAGE plpgsql;
 

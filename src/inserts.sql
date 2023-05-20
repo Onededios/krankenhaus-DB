@@ -28,8 +28,8 @@ INSERT INTO krankenhaus_schema.persona ( idhospital, nom, cognom, datanaixement 
 ( 2, 'Brandie', 'Finley', '2016-03-22' ) ,
 ( 1, 'Rose', 'Escobar', '2018-11-28' ) ,
 ( 3, 'Ernest', 'Robinson', '2003-01-20' ) ,
-( 3, 'Randal', 'Larsen', '2018-03-16' ) ,
-( 3, 'Ismael', 'Dickerson', '2019-12-25' ) ,
+( 1, 'Randal', 'Larsen', '2018-03-16' ) ,
+( 2, 'Ismael', 'Dickerson', '2019-12-25' ) ,
 ( 3, 'Keri', 'Brennan', NULL ) ,
 ( 1, 'Cameron', 'Bass', '2002-10-07' ) ,
 ( 1, 'Roberta', 'Morse', '2009-08-01' ) ,
@@ -92,7 +92,7 @@ INSERT INTO krankenhaus_schema.cartillavacunes ( idpacient, idvacuna, datavacuna
 ( 4, 3, '2015-05-13' ) ,
 ( 7, 1, '2011-07-03' ) ,
 ( 10, 3, '2004-07-18' ) ,
-( 8, 3, '2017-01-17' ) ;
+( 8, 2, '2017-01-17' ) ;
 
 INSERT INTO krankenhaus_schema.virus ( idvacuna, nomvirus, numvariant ) VALUES
  ( 3, 'Alex Cremento', 379250082 ),
