@@ -100,7 +100,7 @@ INSERT INTO krankenhaus_schema.virus ( idvacuna, nomvirus, numvariant ) VALUES
  ( 1, 'Lola Mento', 1774486701 );
 
 INSERT INTO krankenhaus_schema.stock ( idvacuna, idhospital, qty ) VALUES
- ( 1, 3, 73105736 ),
- ( 2, 1, 7099203 ),
- ( 3, 2, 6712000 ),
- ( 1, 2, 76815698 );
+ ( 1, 3, 1100 ),
+ ( 2, 1, 5000 ),
+ ( 3, 2, 2310 ),
+ ( 1, 2, 1500 );

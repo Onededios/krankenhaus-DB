@@ -1,3 +1,4 @@
+--------------------------------------------------------------------------------------
 -- INGRESA PACIENT -- FUNCIONA
 CREATE OR REPLACE FUNCTION ingresaPacient(p_idpacient INTEGER, inp_iddoctor INTEGER)
 RETURNS void AS $$
@@ -31,7 +32,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM ingresaPacient(1);
+-- SELECT * FROM ingresaPacient(1);
+
 --------------------------------------------------------------------------------------
 -- REVISA PACIENT -- FUNCIONA
 CREATE OR REPLACE FUNCTION actualizaEstadoPaciente(p_idpacient INTEGER)
@@ -57,8 +59,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM actualizaEstadoPaciente(123, 'fora de perill');
+-- SELECT * FROM actualizaEstadoPaciente(123, 'fora de perill');
 
+--------------------------------------------------------------------------------------
 -- FICAR STOCK -- FUNCIONA
 CREATE OR REPLACE FUNCTION ficaStock(p_nombre_vacuna TEXT, addQTY BIGINT)
 RETURNS BIGINT AS $$
@@ -80,8 +83,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM ficaStock('Terminator', 1000000);
+-- SELECT * FROM ficaStock('Terminator', 1000000);
 
+--------------------------------------------------------------------------------------
 -- POSA DOSIS 1 -- FUNCIONA
 CREATE OR REPLACE FUNCTION posaDosis1(inp_idpacient INTEGER, inp_idvacuna INTEGER)
 RETURNS VOID AS $$
@@ -99,51 +103,60 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- AVISA POC STOCK -- PRINCIPIO FUNCIONA
+--------------------------------------------------------------------------------------
+-- AVISA POC STOCK -- FUNCIONA
 CREATE OR REPLACE FUNCTION avisaPocStock()
 RETURNS TRIGGER AS $$
 DECLARE
-  v_tipo_vacuna TEXT;
-  v_cantidad_vacuna INTEGER;
+  min_QTY INTEGER = 1000;
 BEGIN
-  IF TG_OP = 'INSERT' THEN -- Solo se activa el trigger en el caso de una inserción
-    v_tipo_vacuna := NEW.nomvacuna;
-    SELECT qty INTO v_cantidad_vacuna FROM stock WHERE idvacuna = NEW.idvacuna;
-    IF v_cantidad_vacuna < 5 THEN -- Si queda menos de 5 unidades de la vacuna, se envía una notificación
-      PERFORM pg_notify('vacunas', 'Quedan menos de 5 unidades de la vacuna ' || v_tipo_vacuna);
-    END IF;
+  IF NEW.qty < min_QTY THEN
+    RAISE NOTICE 'La quantitat de stock de aquesta vacuna es inferior a %.', min_QTY;
   END IF;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 
- -- ES NECESARIO CREAR EL TRIGGER PARA QUE LA FUNCIÓN ESTE CORRECTA --
+--------------------------------------------------------------------------------------
+ -- ES NECESARIO CREAR EL TRIGGER PARA QUE LA FUNCIÓN SALTE --
 CREATE TRIGGER trigger_avisa_poc_stock
-AFTER INSERT ON stock
+AFTER UPDATE ON krankenhaus_schema.stock
 FOR EACH ROW
 EXECUTE FUNCTION avisaPocStock();
 
--- PARA ACTIVAR EL TRIGGER NECESITAMOS HACER UN INSERT O UPDATE --
-UPDATE or INSERT
+-- PARA ACTIVAR EL TRIGGER NECESITAMOS HACER UN UPDATE --
+-- update stock set qty=500 where idvacuna=1;
 
--- Llista Pacients Cartilla -- CORREGIDA
-CREATE OR REPLACE FUNCTION mostrar_pacientes_hospitalizados()
+--------------------------------------------------------------------------------------
+-- Llista Pacients Cartilla -- FUNCIONA
+CREATE OR REPLACE FUNCTION LlistaPacientsCartilla()
   RETURNS TABLE (
-    idpacient BIGINT,
-    idpersona BIGINT,
+    idpacient INTEGER,
+    idcartilla INTEGER,
+    nom TEXT,
+    cognom TEXT,
+    nomhospital TEXT,
     planta TEXT,
-    ocupauci BOOLEAN,
-    estat TEXT
+    habitacio TEXT,
+    nomvacuna TEXT,
+    datavacunacio DATE,
+    data2vacunacio DATE,
+    data3vacunacio DATE
   )
 AS $$
 BEGIN
   RETURN QUERY
-  SELECT pc.idpacient, p.idpersona, pc.planta, pc.ocupauci, pc.estat
-  FROM pacient AS pc
-  INNER JOIN persona AS p ON pc.idpersona = p.idpersona;
+  SELECT pacient.idpacient, cartillavacunes.idcartilla, persona.nom, persona.cognom, hospital.nomhospital, pacient.planta, pacient.habitacio, vacuna.nomvacuna, cartillavacunes.datavacunacio, cartillavacunes.data2vacunacio, cartillavacunes.data3vacunacio
+  FROM persona
+  NATURAL JOIN pacient
+  NATURAL JOIN hospital
+  NATURAL JOIN cartillavacunes
+  NATURAL JOIN vacuna
+  WHERE ocupauci
+  ORDER BY idpacient;
 END;
 $$ LANGUAGE plpgsql;
 
 -- PARA MOSTRAR LOS PACIENTES HOSPITALIZADOS --
-SELECT * FROM mostrar_pacientes_hospitalizados();
+-- SELECT * FROM mostrar_pacientes_hospitalizados();
