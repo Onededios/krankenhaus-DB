@@ -84,7 +84,7 @@ INSERT INTO krankenhaus_schema.vacuna ( nomvacuna, laboratori, numdosis ) VALUES
 
 INSERT INTO krankenhaus_schema.cartillavacunes ( idpacient, idvacuna, datavacunacio ) VALUES
 ( 8, 3, '2014-08-15' ) ,
-( 2, 1, '2011-04-01' ) ,
+( 2, , '') ,
 ( 5, 3, '2001-06-02' ) ,
 ( 5, 1, '2016-02-08' ) ,
 ( 3, 2, '2001-05-05' ) ,
