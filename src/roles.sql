@@ -35,7 +35,7 @@ GRANT EXECUTE ON FUNCTION LlistaPacientsCartilla TO administratiu;
 
 CREATE ROLE admin;
 GRANT ALL PRIVILEGES ON DATABASE krankenhaus TO admin;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA krankenhaus_schema TO admin;
 GRANT CONNECT ON DATABASE krankenhaus TO admin;
 GRANT USAGE ON SCHEMA krankenhaus_schema TO admin;
 GRANT EXECUTE ON FUNCTION ingresaPacient TO admin;
